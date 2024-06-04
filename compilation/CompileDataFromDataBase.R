@@ -2,7 +2,7 @@
 #' Script to produce the data.frame objects
 #' that contain the information from
 #' the original database.
-#' @author Mathieu Fortin - February 2024
+#' @author Mathieu Fortin - June 2024
 #'
 
 rm(list=ls())
@@ -16,18 +16,18 @@ if (!require("RODBC")) {
 }
 
 .driverinfo <- "Driver={Microsoft Access Driver (*.mdb, *.accdb)};"
-.db <- file.path(getwd(), "compilation", "PET4.mdb") # database path
+.db <- file.path(getwd(), "compilation", "PET3.mdb") # database path
 .path <- paste0(.driverinfo, "DBQ=", .db)
 channel <- odbcDriverConnect(.path, rows_at_time = 1)
 message("Here are the tables in the database:")
 sqlTables(channel, tableType = "TABLE")$TABLE_NAME
 
-plots <- sqlFetch(channel, "PLACETTE") #### 109 713 observations
-sites <- sqlFetch(channel, "STATION_PE") #### 109 713 observations
-photoInterpretedStands <- sqlFetch(channel, "PEE_ORI_SOND") #### 109 713 observations
-trees <- sqlFetch(channel, "DENDRO_ARBRES") #### 3 919 833 observations
-studyTrees <- sqlFetch(channel, "DENDRO_ARBRES_ETUDES") #### 355 123 observations
-saplings <- sqlFetch(channel, "DENDRO_GAULES") #### 459 898 observations
+plots <- sqlFetch(channel, "PLACETTE") #### 101 728 observations
+sites <- sqlFetch(channel, "STATION_PE") #### 101 742 observations
+photoInterpretedStands <- sqlFetch(channel, "PEE_ORI_SOND") #### 96 172 observations
+trees <- sqlFetch(channel, "DENDRO_TIGES") #### 1 291 748 observations
+studyTrees <- sqlFetch(channel, "DENDRO_ARBRES_ETUDES") #### 335 964 observations
+saplings <- sqlFetch(channel, "DENDRO_GAULES") #### 502 741 observations
 close(channel)
 
 sort(unique(sites$GUIDE_ECO))
@@ -43,12 +43,12 @@ matchREGECO_SDOMAINE <- data.frame(GUIDE_ECO, SDOMAINE)
 sites <- merge(sites, matchREGECO_SDOMAINE, by = "GUIDE_ECO")
 plots <- plots[,colnames(plots)[which(colnames(plots) != "SHAPE")]]
 
-TSP4 <- list()
-TSP4$plots <- plots
-TSP4$sites <- sites
-TSP4$photoInterpretedStands <- photoInterpretedStands
-TSP4$trees <- trees
-TSP4$studyTrees <- studyTrees
-TSP4$saplings <- saplings
+TSP3 <- list()
+TSP3$plots <- plots
+TSP3$sites <- sites
+TSP3$photoInterpretedStands <- photoInterpretedStands
+TSP3$trees <- trees
+TSP3$studyTrees <- studyTrees
+TSP3$saplings <- saplings
 
-saveRDS(TSP4, file = file.path(getwd(),"inst","extdata", "QcTSP4.Rds"), compress = "xz")
+saveRDS(TSP3, file = file.path(getwd(),"inst","extdata", "QcTSP3.Rds"), compress = "xz")
