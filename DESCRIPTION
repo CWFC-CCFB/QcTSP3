@@ -1,0 +1,19 @@
+Package: QcTSP3
+Type: Package
+Title: TSP Data from the Third Campaign of Quebec Provincial Forest Inventory
+Version: 2017.11.13-0.9.0
+Authors@R: c(
+    person("Hugues", "Power", email = "hugues.power@mrnf.gouv.qc.ca", role = c("aut")),
+    person("Mathieu", "Fortin", email = "mathieu.fortin.re@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6436-2727")))
+Description: This is a clean version of Quebec TSP - third campaign - , which is freely available (see README).
+URL: https://github.com/CWFC-CCFB/QcTSP3
+License: LGPL-3 + file LICENSE
+Depends:
+    R (>= 3.5.0)
+BugReports: https://github.com/CWFC-CCFB/QcTSP3/issues
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+RoxygenNote: 7.3.0
