@@ -11,9 +11,13 @@ The original data was produced and made freely available online
 at https://www.donneesquebec.ca/recherche/dataset/placettes-echantillons-temporaires-3e-inventaire-1992-2003 by Direction des inventaires forestiers
 of Ministère des Ressources naturelles et des Forêts du Québec. The original data is published under a CC-BY 4.0 license. 
 
+## Copyright
+
+(c) 2024 His Majesty the King in Right of Canada and Quebec Minister of Natural Resources and Forests
+
 ## License
 
-This package is licensed under the LGPL-3. 
+This package is licensed under the Lesser General Public License (LGPL-3). 
 
 ## How to use it
 

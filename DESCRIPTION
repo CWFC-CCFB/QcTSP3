@@ -4,7 +4,8 @@ Title: TSP Data from the Third Campaign of Quebec Provincial Forest Inventory
 Version: 2017.11.13-0.9.0
 Authors@R: c(
     person("Hugues", "Power", email = "hugues.power@mrnf.gouv.qc.ca", role = c("aut")),
-    person("Mathieu", "Fortin", email = "mathieu.fortin.re@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6436-2727")))
+    person("Mathieu", "Fortin", email = "mathieu.fortin.re@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6436-2727")),
+	person("His Majesty the King in right of Canada and Quebec Minister of Natural Resources and Forests", role=c("cph")))
 Description: This is a clean version of Quebec TSP - third campaign - , which is freely available (see README).
 URL: https://github.com/CWFC-CCFB/QcTSP3
 License: LGPL-3 + file LICENSE
