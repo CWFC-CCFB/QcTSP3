@@ -153,9 +153,9 @@ extractNaturaFormatForMetaModelling <- function(QcTSP3Data, stratumPlots) {
   missingPlots <- setdiff(plotList, outputPlots)
 
   if (length(missingPlots) > 0) {
-    message("These plots have no  trees: ", paste(missingPlots, collapse = ", "))
+    message(paste(length(missingPlots), "plots have no trees:", paste(missingPlots, collapse = ", ")))
     message("They will not be simulated with Natura ")
-      }
+  }
 
   output <- output [,c(2,1,3:16)]
   output <- output[order(output$stratum, output$ID_PE, -output$CL_DHP),]
@@ -172,7 +172,7 @@ extractNaturaFormatForMetaModelling <- function(QcTSP3Data, stratumPlots) {
   studyTrees <- studyTrees [,c(2,1,3:7)]
   colnames(studyTrees) <- c("STRATUM","PLOT", "SPECIES", "TREECLASS", "TREEDHPCM",  "TREEHEIGHT", "TREEAGE")
 
-  outputNat<-list(output,studyTrees)
+  outputNat<-list(trees = output, studyTrees = studyTrees)
 
   return(outputNat)
 }
