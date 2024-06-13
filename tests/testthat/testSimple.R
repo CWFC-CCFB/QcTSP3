@@ -30,3 +30,10 @@ plotList <- c(8500101, 19403002, 19643204, 19655605, 19720702, 19745605, 1983620
 selectedTrees <- extractArtemisFormatForMetaModelling(QcTSP3Data, plotList)
 test_that("Testing nb rows in selectedTrees", {expect_equal(nrow(selectedTrees), 17)})
 
+stratumPlots <- data.frame("stratum"=c("BOJ","ERS","SAB"),"plots"=c(8500101,9400909104,9904805304))## only the first and last has sample trees
+selectedTrees <- extractNaturaFormatForMetaModelling(QcTSP3Data, stratumPlots)
+test_that("Testing nb rows in selectedTrees", {expect_equal(nrow(selectedTrees[[1]]), 39)})
+
+stratumPlots<- data.frame("stratum"=c("BOJ","ERS","SAB"),"plots"=c(8500101,9400909104,9904805304))## only the first and last has sample trees
+selectedTrees <- extractNaturaFormatForMetaModelling(QcTSP3Data, stratumPlots)
+test_that("Testing nb rows in selectedTrees", {expect_equal(nrow(selectedTrees[[2]]), 6)})
