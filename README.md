@@ -25,7 +25,7 @@ The package can be installed using the remotes package:
 
 ~~~R
 library(remotes)
-remotes::install_github("CWFC-CCFB/QcTSP3")
+install_github("CWFC-CCFB/QcTSP3")
 ~~~
 
 To get access to the four tables of the database:
