@@ -55,7 +55,7 @@ restoreQcTSP3Data <- function() {
 #' @return a data.frame object formatted for Capsis Web API
 #'
 #' @export
-extractArtemisFormatForMetaModelling <- function(QcTSP3Data, plots) {
+extractArtemis2009FormatFromTSP3ForMetaModelling <- function(QcTSP3Data, plots) {
   plotList <- unique(plots) ### make sure there is no duplicate
   plotInfo <- QcTSP3Data$plots[which(QcTSP3Data$plots$ID_PE %in% plotList), c("ID_PE", "LATITUDE", "LONGITUDE", "DATE_SOND")]
   siteInfo <- QcTSP3Data$sites[which(QcTSP3Data$sites$ID_PE %in% plotList), c("ID_PE", "ALTITUDE", "SDOMAINE", "GUIDE_ECO", "TYPE_ECO", "CL_DRAI")]
@@ -111,9 +111,6 @@ extractArtemisFormatForMetaModelling <- function(QcTSP3Data, plots) {
 }
 
 
-######################Natura
-#Besoins Strate et SousDomaine bioclimatique sous la forme "6OUEST" dans fichiers Arbre
-#BesoinsStrate Placette Essence DHP Hauteur Age et Étage dans fichier Arbres Etude
 
 #'
 #' Extract plot list for Natura simulation
@@ -122,8 +119,7 @@ extractArtemisFormatForMetaModelling <- function(QcTSP3Data, plots) {
 #' @return a list of two dataframes where the first is a tree list and the second is a list of study trees for model Natura on Capsis Web API
 #'
 #' @export
-
-extractNaturaFormatForMetaModelling <- function(QcTSP3Data, stratumPlots) {
+extractNatura2014FormatFromTSP3ForMetaModelling <- function(QcTSP3Data, stratumPlots) {
   plotList <- unique(stratumPlots$plots) ### make sure there is no duplicate
   plotInfo <- QcTSP3Data$plots[which(QcTSP3Data$plots$ID_PE %in% plotList), c("ID_PE", "LATITUDE", "LONGITUDE", "DATE_SOND")]
   siteInfo <- QcTSP3Data$sites[which(QcTSP3Data$sites$ID_PE %in% plotList), c("ID_PE", "ALTITUDE", "SDOMAINE", "GUIDE_ECO", "TYPE_ECO", "CL_DRAI")]
@@ -153,9 +149,9 @@ extractNaturaFormatForMetaModelling <- function(QcTSP3Data, stratumPlots) {
   missingPlots <- setdiff(plotList, outputPlots)
 
   if (length(missingPlots) > 0) {
-    message("These plots have no  trees: ", paste(missingPlots, collapse = ", "))
+    message(paste(length(missingPlots), "plots have no trees:", paste(missingPlots, collapse = ", ")))
     message("They will not be simulated with Natura ")
-      }
+  }
 
   output <- output [,c(2,1,3:16)]
   output <- output[order(output$stratum, output$ID_PE, -output$CL_DHP),]
@@ -172,7 +168,7 @@ extractNaturaFormatForMetaModelling <- function(QcTSP3Data, stratumPlots) {
   studyTrees <- studyTrees [,c(2,1,3:7)]
   colnames(studyTrees) <- c("STRATUM","PLOT", "SPECIES", "TREECLASS", "TREEDHPCM",  "TREEHEIGHT", "TREEAGE")
 
-  outputNat<-list(output,studyTrees)
+  outputNat<-list(trees = output, studyTrees = studyTrees)
 
   return(outputNat)
 }
