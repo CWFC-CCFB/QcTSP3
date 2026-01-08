@@ -52,10 +52,12 @@ restoreQcTSP3Data <- function() {
 #' Extract plot list for Artemis simulation
 #' @param QcTSP3Data the database that is retrieved through the restoreQcTSP3Data function
 #' @param plots a vector of integers standing for the plot id to be considered
+#' @param format a character string identifying the intended use, either "WebAPI" or "RPackage"
 #' @return a data.frame object formatted for Capsis Web API
-#'
+#' \dontrun{
+#'  extractArtemisFormatFromTSP3(QcTSP4Data=Data, plots= c(8500101, 9400909104,  9904805304), format="WebAPI")}
 #' @export
-extractArtemis2009FormatFromTSP3ForMetaModelling <- function(QcTSP3Data, plots) {
+extractArtemisFormatFromTSP3 <- function(QcTSP3Data, plots, format="WebAPI") {
   plotList <- unique(plots) ### make sure there is no duplicate
   plotInfo <- QcTSP3Data$plots[which(QcTSP3Data$plots$ID_PE %in% plotList), c("ID_PE", "LATITUDE", "LONGITUDE", "DATE_SOND")]
   siteInfo <- QcTSP3Data$sites[which(QcTSP3Data$sites$ID_PE %in% plotList), c("ID_PE", "ALTITUDE", "SDOMAINE", "GUIDE_ECO", "TYPE_ECO", "CL_DRAI")]
@@ -80,7 +82,7 @@ extractArtemis2009FormatFromTSP3ForMetaModelling <- function(QcTSP3Data, plots) 
   missingPlots <- setdiff(plotList, outputPlots)
   if (length(missingPlots) > 0) {
     message("These plots have no saplings and no trees: ", paste(missingPlots, collapse = ", "))
-    message("We will add a fake sapling to make sure they are properly imported in Artemis-2009.")
+    message("We will add a fake sapling to make sure they are properly imported in Artemis.")
     fakeSaplings <- NULL
     for (mPlot in missingPlots) {
       fakeSaplings <- rbind(fakeSaplings, data.frame(ID_PE = mPlot, ESSENCE = "SAB", CL_DHP = as.integer(2), HAUT_ARBRE = NA, TIGE_HA = as.integer(25)))
@@ -102,11 +104,25 @@ extractArtemis2009FormatFromTSP3ForMetaModelling <- function(QcTSP3Data, plots) 
   output$TREEFREQ <- output$TIGE_HA / 25
   output$TREESTATUS <- 10
   output$TREEHEIGHT <- output$HAUT_ARBRE * .1
+  output$Veg_Pot<-substr(output$TYPE_ECO_PHOTO,1,3)
 
-  output <- output[,c("ID_PE", "LATITUDE", "LONGITUDE", "ALTITUDE", "SDOMAINE", "GUIDE_ECO", "TYPE_ECO", "CL_DRAI",
-                      "ESSENCE", "TREESTATUS", "CL_DHP", "TREEFREQ", "TREEHEIGHT", "ANNEE_SOND", "TYPE_ECO_PHOTO", "CL_AGE")]
+
+  if (format=="WebAPI"){
+    output <- output[,c("ID_PE", "LATITUDE", "LONGITUDE", "ALTITUDE", "SDOMAINE", "GUIDE_ECO", "TYPE_ECO", "CL_DRAI",
+                        "ESSENCE", "TREESTATUS", "CL_DHP", "TREEFREQ", "TREEHEIGHT", "ANNEE_SOND", "TYPE_ECO_PHOTO", "CL_AGE","Veg_Pot")]
+
   colnames(output) <- c("PLOT", "LATITUDE", "LONGITUDE", "ALTITUDE", "SUBDOMAIN", "ECOREGION", "TYPEECO", "DRAINAGE_CLASS",
-                        "SPECIES", "TREESTATUS", "TREEDHPCM", "TREEFREQ", "TREEHEIGHT", "ANNEE_SOND", "STANDTYPEECO", "STANDAGE")
+                        "SPECIES", "TREESTATUS", "TREEDHPCM", "TREEFREQ", "TREEHEIGHT", "ANNEE_SOND", "STANDTYPEECO", "STANDAGE","Veg_Pot")
+  } else if (format=="RPackage"){
+    output$OrigTreeID<-ave(output$ID_PE, output$ID_PE, FUN = seq_along)
+
+    output <- output[,c("ID_PE", "OrigTreeID", "LATITUDE", "LONGITUDE", "ALTITUDE", "SDOMAINE", "GUIDE_ECO", "TYPE_ECO", "CL_DRAI",
+                        "ESSENCE", "TREESTATUS", "CL_DHP", "TREEFREQ", "TREEHEIGHT", "ANNEE_SOND", "TYPE_ECO_PHOTO", "CL_AGE","Veg_Pot")]
+
+    colnames(output) <- c("PlacetteID","OrigTreeID", "Latitude", "Longitude", "Altitude", "Sdom_Bio", "Reg_Eco", "Type_Eco", "Cl_Drai",
+                          "Espece","Etat", "DHPcm", "Nombre", "Hauteur", "Annee", "Type_Eco_Photo", "Age", "Veg_Pot")
+  }
+
   return(output)
 }
 
