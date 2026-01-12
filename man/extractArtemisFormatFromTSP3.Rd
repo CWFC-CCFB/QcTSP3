@@ -15,9 +15,13 @@ extractArtemisFormatFromTSP3(QcTSP3Data, plots, format = "WebAPI")
 }
 \value{
 a data.frame object formatted for Capsis Web API
-\dontrun{
- extractArtemisFormatFromTSP3(QcTSP4Data=Data, plots= c(8500101, 9400909104,  9904805304), format="WebAPI")}
 }
 \description{
 Extract plot list for Artemis simulation
+}
+\examples{
+\dontrun{
+ extractArtemisFormatFromTSP3(QcTSP4Data=Data, plots= c(8500101, 9400909104,  9904805304),
+  format="WebAPI")
+}
 }

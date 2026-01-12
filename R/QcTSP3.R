@@ -54,8 +54,11 @@ restoreQcTSP3Data <- function() {
 #' @param plots a vector of integers standing for the plot id to be considered
 #' @param format a character string identifying the intended use, either "WebAPI" or "RPackage"
 #' @return a data.frame object formatted for Capsis Web API
+#' @examples
 #' \dontrun{
-#'  extractArtemisFormatFromTSP3(QcTSP4Data=Data, plots= c(8500101, 9400909104,  9904805304), format="WebAPI")}
+#'  extractArtemisFormatFromTSP3(QcTSP4Data=Data, plots= c(8500101, 9400909104,  9904805304),
+#'   format="WebAPI")
+#' }
 #' @export
 extractArtemisFormatFromTSP3 <- function(QcTSP3Data, plots, format="WebAPI") {
   plotList <- unique(plots) ### make sure there is no duplicate
@@ -114,7 +117,7 @@ extractArtemisFormatFromTSP3 <- function(QcTSP3Data, plots, format="WebAPI") {
   colnames(output) <- c("PLOT", "LATITUDE", "LONGITUDE", "ALTITUDE", "SUBDOMAIN", "ECOREGION", "TYPEECO", "DRAINAGE_CLASS",
                         "SPECIES", "TREESTATUS", "TREEDHPCM", "TREEFREQ", "TREEHEIGHT", "ANNEE_SOND", "STANDTYPEECO", "STANDAGE","Veg_Pot")
   } else if (format=="RPackage"){
-    output$OrigTreeID<-ave(output$ID_PE, output$ID_PE, FUN = seq_along)
+    output$OrigTreeID<-stats::ave(output$ID_PE, output$ID_PE, FUN = seq_along)
 
     output <- output[,c("ID_PE", "OrigTreeID", "LATITUDE", "LONGITUDE", "ALTITUDE", "SDOMAINE", "GUIDE_ECO", "TYPE_ECO", "CL_DRAI",
                         "ESSENCE", "TREESTATUS", "CL_DHP", "TREEFREQ", "TREEHEIGHT", "ANNEE_SOND", "TYPE_ECO_PHOTO", "CL_AGE","Veg_Pot")]
